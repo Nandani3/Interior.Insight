@@ -26,7 +26,7 @@ Ensure you have the following installed:
 ### Setup Instructions
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/kshitizsinghal13/interior-ai.git
+   git clone https://github.com/Nandani3/Interior.Insight.git
    cd interior-ai
    ```
 
