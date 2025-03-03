@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Team</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #Container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #3687a2;
+            background-position: center;
+            background-size: cover;
+            
+  
+        }
+        #logo {
+            position: absolute; /* Position logo on top left */
+            top: 20px; /* Adjust as needed */
+            left: 20px; /* Adjust as needed */
+            width: 140px; /* Adjust size */
+            height: auto; /* Maintain aspect ratio */
+        }
+        .heading {
+            text-align: center;
+            font-size: 3rem;
+            color: black;
+            margin-top: 20px; /* Space from top */
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            text-shadow: 0 0 3px #FFFFFF;
+            font-weight: bold;
+        }
+        .card-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .card {
+            padding: 20px;
+            margin: 10px;
+            background-color: #fff;
+            text-align: center;
+            width: 300px; /* Fixed width for cards */
+            height: 400px;
+            box-shadow: 0 13px 18px rgba(238, 229, 229, 0.3);
+            transition: transform 0.3s ease; /* Animation on hover */
+            border: black 3px solid;
+        }
+        .card:hover {
+            transform: scale(1.05); /* Scale effect on hover */
+        }
+        .card img {
+            height: 250px; /* Fixed height for images */
+            width: 100%; /* Full width */
+
+        }
+        .icons a {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        .our-work {
+            text-align: center;
+            font-size: 2.5rem;
+            color:black;
+            margin-top: 40px; 
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            text-shadow: 0 0 3px #FFFFFF;
+            font-weight: bold;
+        }
+        .carousel-inner img {
+          width: 100%; /* Full width for carousel images */
+          height: auto; /* Maintain aspect ratio */
+          max-height: 700px; /* Set maximum height for carousel images */
+          border: black 7px solid;
+        }
+        .para p{
+            font-size: 25px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            
+        }
+    </style>
+</head>
+<body>
+
+<div id="Container">
+    <img id="logo" src="./Images/logo.jpg" alt="Logo">
+    
+    
+    <h1 class="heading">Creator and the Management Team</h1>
+    <hr width="80%" size="10" noshade>
+    <hr width="60%" size="10" noshade>
+
+    <div class="card-container">
+        <div class="card">
+            <img src="./Images/photo 1.jpeg" alt="">
+            <h3>Nandani Bisht</h3>
+            <p>Web Designer,AI Developer</p>
+            <div class="icons">
+                <a href="#" class="fab fa-facebook"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-github"></a>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./Images/photo 2.jpg" alt="">
+            <h3>Mayank Singhal</h3>
+            <p>Design Expert</p>
+            <div class="icons">
+                <a href="#" class="fab fa-facebook"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-github"></a>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./Images/photo 1.jpg" alt="">
+            <h3>Nishant Chauhan</h3>
+            <p>Web Developer</p>
+            <div class="icons">
+                <a href="#" class="fab fa-facebook"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-github"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Work Section -->
+    <a href="./our projects.html"><h2 class="our-work">Have a look on some of our previous work.</h2></a>
+    <hr width="80%" size="10" noshade>
+    <hr width="60%" size="10" noshade>
+    <br>
+
+    <!-- Carousel for images -->
+    <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="2000"> <!-- Automatically moves every 3 seconds -->
+      <div class="carousel-inner">
+          <div class="carousel-item active">
+              <a href="bedroom.html"><img src="./Images/aboutUs.jpg" alt="" /></a>
+          </div>
+          <div class="carousel-item">
+              <a href="balcony.html"><img src="/Images/abt1.jpg" alt="" /></a>
+          </div>
+          <div class="carousel-item">
+              <a href="livingroom.html"><img src="./Images/abt2.jpg" alt="" /></a>
+          </div>
+          <div class="carousel-item">
+              <a href="./modularkitchen.html"><img src="./Images/abt3.jpg" alt="" /></a>
+          </div>
+          <div class="carousel-item">
+            <a href="./bathroom.html"><img src="./Images/bt3.jpg" alt="" /></a>
+        </div>
+          <!-- Add more carousel items as needed -->
+      </div>
+
+      <!-- Carousel controls -->
+      <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+    <!-- Company Description -->
+    <div style="text-align:center; margin-top:40px;" class="para">
+      <p>At Interior Insides, we are revolutionizing the home interiors industry and redefining the way homeowners experience their dream homes. We are not just another company; we are on a mission to create the world's most trusted and customer-centric home interiors brand. With our cutting-edge technology, innovative design solutions, and streamlined operations, we deliver unparalleled and hassle-free home interiors to homeowners across India.</p>
+
+      <!-- Add more content as necessary -->
+    </div>
+
+</div>
+
+<!-- Include Bootstrap JS (optional) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

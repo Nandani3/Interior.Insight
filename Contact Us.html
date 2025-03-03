@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONTACT US</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #3687a2;
+        }
+        #logo {
+            position: absolute; /* Position logo on top left */
+            top: 20px; /* Adjust as needed */
+            left: 20px; /* Adjust as needed */
+            width: 140px; /* Adjust size */
+            height: auto; /* Maintain aspect ratio */
+        }
+        .heading {
+            text-align: center;
+            font-size: 3rem;
+            color: black;
+            margin-top: 20px; /* Space from top */
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            text-shadow: 0 0 3px #FFFFFF;
+            font-weight: bold;
+        }
+        .contact-box-container {
+            display: flex;
+            flex-direction: column; /* Arrange boxes vertically */
+            align-items: center;
+            margin-top: 20px;
+
+        }
+        .contact-box {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            width: 300px; /* Fixed width for boxes */
+            box-shadow: 0 .3rem .5rem rgba(0,0,0,.3);
+            transition: transform 0.3s ease; /* Animation on hover */
+
+        }
+        .contact-box:hover {
+            transform: scale(1.05); /* Scale effect on hover */
+        }
+        .contact-box h3 {
+            margin-left: 10px; /* Space between icon and text */
+        }
+        .form-container {
+            max-width: 600px; /* Limit form width */
+            margin-top: 40px; /* Space above form */
+            border-radius: 5px;
+            border: 2px solid rgb(53, 4, 4);
+            padding: 10px;
+        }
+        .form-content {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border-radius: 8px;
+            border: 2px solid #3687a2; /* Border color matching the theme */
+        }
+        .form-content::placeholder {
+            color: #888; /* Placeholder color */
+        }
+        .form-container button {
+            background-color: #fff; /* Button color matching the theme */
+            color: rgb(71, 137, 243);
+            border-radius: 5px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            
+        }
+        .form-container button:hover {
+            background-color: #005a61; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+
+<img id="logo" src="./Images/logo.jpg" alt="Logo">
+
+<section id="contact" class="contact">
+    <h1 class="heading">CONTACT US</h1>
+    <hr width="80%" size="10" noshade>
+    <hr width="60%" size="10" noshade>
+
+    <div class="form-container mx-auto">
+        <form action="">
+            <h2><center>Get in Touch</h2></center>
+
+            <input type="text" class="form-content" placeholder="Full Name" required>
+            <input type="text" class="form-content" placeholder="Contact Number" required>
+            <input type="email" class="form-content" placeholder="E-Mail" required>
+            
+            <textarea name="" id="" cols="30" rows="5" class="form-content" placeholder="Your Message"></textarea>
+            
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+    <div class="contact-box-container mx-auto">
+        <div class="contact-box">
+            <i class="fas fa-map-marker-alt fa-2x"></i>
+            <h5>Main Office:<br> Gandhi Colony, Muzaffarnagar, India</h3>
+        </div>
+
+        <div class="contact-box">
+            <i class="fas fa-envelope fa-2x"></i>
+            <h5>E-Mail:<br> bishtnandani025@gmail.com</h3>
+        </div>
+
+        <div class="contact-box">
+            <i class="fas fa-phone fa-2x"></i>
+            <h5>Nandani Bisht(Developer): +91 9412678811</h3>
+        </div>
+    </div>
+
+</section>
+
+<!-- Include Bootstrap JS (optional) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
