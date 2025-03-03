@@ -1,0 +1,700 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Analysis and Generation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light background color */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h3 {
+            color: #666;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        button:active {
+            transform: scale(0.95); /* Button click effect */
+        }
+
+        .disabled {
+            background-color: #ccc; /* Gray when disabled */
+            cursor: not-allowed; /* Change cursor to indicate disabled state */
+        }
+
+        #resultContainer {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc; /* Border for result container */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #fff; /* White background for results */
+        }
+        
+        #generatedImageContainer {
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+    <h1>Interior Insight</h1>
+    <h3>NOTE: Save the response as it will neither save on the app nor on server side. ENJOY!</h3>
+    
+    <input type="file" id="imageInput" accept="image/*">
+    
+    <button id="analyzeButton">Analyze Image</button>
+    
+    <button id="viewResultButton" style="display:none;">View Result</button>
+    
+    <div id="resultContainer" style="display:none;">
+        <h2>Analysis Result:</h2>
+        <p id="resultText"></p>
+    </div>
+
+    <div id="generatedImageContainer">
+        <h2>Generated Image:</h2>
+        <img id="generatedImage" src="" alt="Generated Image" style="max-width: 100%; height: auto;">
+    </div>
+
+<script>
+$(document).ready(function() {
+   $('#analyzeButton').click(function() {
+       const file = $('#imageInput')[0].files[0];
+       if (!file) return; // Do nothing if no file is selected
+
+       $(this).addClass('disabled'); // Disable button
+       $(this).text('Analyzing...'); // Change button text
+
+       const reader = new FileReader();
+
+       reader.onloadend = function() {
+           $.ajax({
+               url: '/analyze',
+               method: 'POST',
+               contentType: 'application/json',
+               data: JSON.stringify({ image_data: reader.result }),
+               success: function(response) {
+                   $('#resultText').text(response.result);
+                   $('#resultContainer').show();
+                   $('#viewResultButton').show();
+
+                   // Speak the result
+                   const speech = new SpeechSynthesisUtterance(response.result);
+                   window.speechSynthesis.speak(speech); 
+
+                   // Generate an image based on the analysis result
+                   $.ajax({
+                       url: '/generate',
+                       method: 'POST',
+                       contentType: 'application/json',
+                       data: JSON.stringify({ prompt: response.result }),
+                       success: function(genResponse) {
+                           $('#generatedImage').attr('src', genResponse.image_url);
+                           $('#generatedImageContainer').show();
+                       },
+                       error: function() {
+                           alert('Error generating image');
+                       }
+                   });
+
+                   // Re-enable button after result is displayed
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+               },
+               error: function() {
+                   alert('Error analyzing image');
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image'); // Re-enable on error
+               }
+           });
+       };
+
+       reader.readAsDataURL(file);
+   });
+
+   $('#viewResultButton').click(function() {
+       $('#resultContainer').toggle();
+       // Re-enable the analyze button when viewing results
+       $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+   });
+
+   // Reset button state when a new file is selected
+   $('#imageInput').change(function() {
+       $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+       $('#resultContainer').hide();
+       $('#generatedImageContainer').hide(); // Hide generated image container
+       $('#viewResultButton').hide(); // Hide view result button when selecting a new file
+       $('#resultText').text('');
+       $('#generatedImage').attr('src', ''); // Clear previous generated image
+   });
+});
+</script>
+</body>
+</html>-->
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Analysis and Generation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light background color */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h3 {
+            color: #666;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        button:active {
+            transform: scale(0.95); /* Button click effect */
+        }
+
+        .disabled {
+            background-color: #ccc; /* Gray when disabled */
+            cursor: not-allowed; /* Change cursor to indicate disabled state */
+        }
+
+        #resultContainer {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc; /* Border for result container */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #fff; /* White background for results */
+        }
+        
+        #generatedImageContainer {
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+    <h1>Interior Insight</h1>
+    <h3>NOTE: Save the response as it will neither save on the app nor on server side. ENJOY!</h3>
+    
+    <input type="file" id="imageInput" accept="image/*">
+    
+    <button id="analyzeButton">Analyze Image</button>
+    
+    <button id="viewResultButton" style="display:none;">View Result</button>
+    
+    <div id="resultContainer" style="display:none;">
+        <h2>Analysis Result:</h2>
+        <p id="resultText"></p>
+    </div>
+
+    <div id="generatedImageContainer">
+        <h2>Generated Image:</h2>
+        <img id="generatedImage" src="generated_images\generated_image.png" alt="Generated Image" style="max-width: 100%; height: auto;">
+    </div>
+   
+
+<script>
+$(document).ready(function() {
+   $('#analyzeButton').click(function() {
+       const file = $('#imageInput')[0].files[0];
+       if (!file) return; // Do nothing if no file is selected
+
+       $(this).addClass('disabled'); // Disable button
+       $(this).text('Analyzing...'); // Change button text
+
+       const reader = new FileReader();
+
+       reader.onloadend = function() {
+           $.ajax({
+               url: '/analyze',
+               method: 'POST',
+               contentType: 'application/json',
+               data: JSON.stringify({ image_data: reader.result }),
+               success: function(response) {
+                   $('#resultText').text(response.result);
+                   $('#resultContainer').show();
+                   $('#viewResultButton').show();
+
+                   // Speak the result
+                   const speech = new SpeechSynthesisUtterance(response.result);
+                   window.speechSynthesis.speak(speech); 
+
+                   // Generate an image based on the analysis result
+                   $.ajax({
+                       url: '/generate',
+                       method: 'POST',
+                       contentType: 'application/json',
+                       data: JSON.stringify({ prompt: response.result }),
+                       success: function(genResponse) {
+                           $('#generatedImage').attr('src', genResponse.image_url);
+                           $('#generatedImageContainer').show(); // Show generated image container
+                       },
+                       error: function() {
+                           alert('Error generating image');
+                       }
+                   });
+
+                   // Re-enable button after result is displayed
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+               },
+               error: function() {
+                   alert('Error analyzing image');
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image'); // Re-enable on error
+               }
+           });
+       };
+
+       reader.readAsDataURL(file);
+   });
+
+   $('#viewResultButton').click(function() {
+       $('#resultContainer').toggle();
+       // Re-enable the analyze button when viewing results
+       $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+   });
+
+   // Reset button state when a new file is selected
+   $('#imageInput').change(function() {
+       $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+       $('#resultContainer').hide();
+       $('#generatedImageContainer').hide(); // Hide generated image container
+       $('#viewResultButton').hide(); // Hide view result button when selecting a new file
+       $('#resultText').text('');
+       $('#generatedImage').attr('src', ''); // Clear previous generated image
+   });
+});
+</script>
+</body>
+</html>-->
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Analysis and Generation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light background color */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h3 {
+            color: #666;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        button:active {
+            transform: scale(0.95); /* Button click effect */
+        }
+
+        .disabled {
+            background-color: #ccc; /* Gray when disabled */
+            cursor: not-allowed; /* Change cursor to indicate disabled state */
+        }
+
+        #resultContainer {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc; /* Border for result container */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #fff; /* White background for results */
+        }
+        
+        #generatedImageContainer {
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+    <h1>Interior Insight</h1>
+    <h3>NOTE: Save the response as it will neither save on the app nor on server side. ENJOY!</h3>
+    
+    <input type="file" id="imageInput" accept="image/*">
+    
+    <button id="analyzeButton">Analyze Image</button>
+    
+    <button id="viewResultButton" style="display:none;">View Result</button>
+    
+    <div id="resultContainer" style="display:none;">
+        <h2>Analysis Result:</h2>
+        <p id="resultText"></p>
+    </div>
+
+    <div id="generatedImageContainer" style="display:none;">
+        <h2>Generated Image:</h2>
+        <a href="/view_image">Click here to view the static image 'a.png'</a>
+    </div>
+
+<script>
+$(document).ready(function() {
+   $('#analyzeButton').click(function() {
+       const file = $('#imageInput')[0].files[0];
+       if (!file) return; // Do nothing if no file is selected
+
+       $(this).addClass('disabled'); // Disable button
+       $(this).text('Analyzing...'); // Change button text
+
+       const reader = new FileReader();
+
+       reader.onloadend = function() {
+           $.ajax({
+               url: '/analyze',
+               method: 'POST',
+               contentType: 'application/json',
+               data: JSON.stringify({ image_data: reader.result }),
+               success: function(response) {
+                   $('#resultText').text(response.result);
+                   $('#resultContainer').show();
+                   $('#viewResultButton').show();
+
+                   // Speak the result
+                   const speech = new SpeechSynthesisUtterance(response.result);
+                   window.speechSynthesis.speak(speech); 
+
+                   // Generate an image based on the analysis result
+                   $.ajax({
+                       url: '/generate',
+                       method: 'POST',
+                       contentType: 'application/json',
+                       data: JSON.stringify({ prompt: response.result }),
+                       success: function(genResponse) {
+                           // Set link to view generated image in index2.html 
+                           $('#viewImageLink').attr('href', '/view_image?image_url=' + encodeURIComponent(genResponse.image_url));
+                           $('#generatedImageContainer').show(); // Show generated image container
+                       },
+                       error: function() {
+                           alert('Error generating image');
+                       }
+                   });
+
+                   // Re-enable button after result is displayed
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+               },
+               error: function() {
+                   alert('Error analyzing image');
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image'); // Re-enable on error
+               }
+           });
+       };
+
+       reader.readAsDataURL(file);
+   });
+
+   $('#viewResultButton').click(function() {
+       $('#resultContainer').toggle();
+       // Re-enable the analyze button when viewing results
+       $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+   });
+
+   // Reset button state when a new file is selected
+   $('#imageInput').change(function() {
+       $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+       $('#resultContainer').hide();
+       $('#generatedImageContainer').hide(); // Hide generated image container
+       $('#viewResultButton').hide(); // Hide view result button when selecting a new file
+       $('#resultText').text('');
+       $('#viewImageLink').attr('href', '#'); // Reset link
+   });
+});
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Analysis and Generation</title>
+
+
+
+
+
+    
+</head>
+<body>
+<h1>Interior Insight</h1>
+<h3>NOTE: Save the response as it will neither save on the app nor on server side. ENJOY!</h3>
+
+<input type="file" id="imageInput" accept="image/*">
+<button id="analyzeButton">Analyze Image</button>
+<div id="resultContainer" style="display:none;">
+    <h2>Analysis Result:</h2>
+    <p id="resultText"></p>
+</div>
+
+<div id="generatedImageContainer" style="display:none;">
+   <h2>Generated Image:</h2>
+   <img id="generatedImage" src="" alt="Generated Image" style="max-width:100%; height:auto;">
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+   $('#analyzeButton').click(function() {
+       const file = $('#imageInput')[0].files[0];
+       if (!file) return;
+
+       $(this).addClass('disabled').text('Analyzing...');
+
+       const reader = new FileReader();
+       reader.onloadend = function() {
+           $.ajax({
+               url: '/analyze',
+               method: 'POST',
+               contentType: 'application/json',
+               data: JSON.stringify({ image_data: reader.result }),
+               success: function(response) {
+                   $('#resultText').text(response.result);
+                   $('#resultContainer').show();
+
+                   // Generate an image based on the analysis result
+                   $.ajax({
+                       url: '/generate',
+                       method: 'POST',
+                       contentType: 'application/json',
+                       data: JSON.stringify({ prompt: response.result }),
+                       success: function(genResponse) {
+                           $('#generatedImage').attr('src', genResponse.image_url);
+                           $('#generatedImageContainer').show();
+                       },
+                       error: function() {
+                           alert('Error generating image');
+                       }
+                   });
+
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+               },
+               error: function() {
+                   alert('Error analyzing image');
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+               }
+           });
+       };
+       reader.readAsDataURL(file);
+   });
+});
+</script>
+</body>
+</html>-->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Analysis and Generation</title>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light background color */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px; /* Rounded corners */
+            border: 1px solid #ccc; /* Light gray border */
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        button.disabled {
+            background-color: #ccc; /* Gray when disabled */
+            cursor: not-allowed; /* Change cursor to indicate disabled state */
+        }
+
+        #resultContainer, #generatedImageContainer {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc; /* Border for result container */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #fff; /* White background for results */
+        }
+
+        img {
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 5px; /* Rounded corners for images */
+        }
+    </style>
+</head>
+<body>
+<h1>Interior Insight</h1>
+<h3>NOTE: Save the response as it will neither save on the app nor on server side. ENJOY!</h3>
+
+<input type="file" id="imageInput" accept="image/*">
+<button id="analyzeButton">Analyze Image</button>
+
+<div id="resultContainer" style="display:none;">
+    <h2>Analysis Result:</h2>
+    <p id="resultText"></p>
+</div>
+
+<div id="generatedImageContainer" style="display:none;">
+   <h2>Generated Image:</h2>
+   <img id="generatedImage" src="" alt="Generated Image">
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+   $('#analyzeButton').click(function() {
+       const file = $('#imageInput')[0].files[0];
+       if (!file) return;
+
+       $(this).addClass('disabled').text('Analyzing...');
+
+       const reader = new FileReader();
+       reader.onloadend = function() {
+           $.ajax({
+               url: '/analyze',
+               method: 'POST',
+               contentType: 'application/json',
+               data: JSON.stringify({ image_data: reader.result }),
+               success: function(response) {
+                   $('#resultText').text(response.result);
+                   $('#resultContainer').show();
+
+                   // Generate an image based on the analysis result
+                   $.ajax({
+                       url: '/generate',
+                       method: 'POST',
+                       contentType: 'application/json',
+                       data: JSON.stringify({ prompt: response.result }),
+                       success: function(genResponse) {
+                           $('#generatedImage').attr('src', genResponse.image_url);
+                           $('#generatedImageContainer').show();
+                       },
+                       error: function() {
+                           alert('Error generating image');
+                       }
+                   });
+
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+               },
+               error: function() {
+                   alert('Error analyzing image');
+                   $('#analyzeButton').removeClass('disabled').text('Analyze Image');
+               }
+           });
+       };
+       reader.readAsDataURL(file);
+   });
+});
+</script>
+</body>
+</html>
